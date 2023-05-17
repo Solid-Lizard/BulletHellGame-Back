@@ -4,8 +4,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -18,9 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/download")
 public class DownloadController {
-	
-	private Resource game = new ClassPathResource("BulletHell.zip");
-	
 	@GetMapping
 	public ResponseEntity<Resource> downloadGame() throws IOException {
         // Ruta al archivo ZIP que deseas descargar

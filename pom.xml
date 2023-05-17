@@ -42,6 +42,40 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!--  DEPENDENCIAS PARA EMAIL -->
+		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-context-support</artifactId>
+		</dependency>
+		
+		<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		
+		<!-- DEPENDENCIAS PARA SWAGGER -->		
+		<dependency>
+    		<groupId>io.springfox</groupId>
+    		<artifactId>springfox-swagger-ui</artifactId>
+    		<version>3.0.0</version>
+		</dependency>
+		
+		
+		<!-- DEPENDENCIAS PARA JACKSON -->
+		<dependency>
+    		<groupId>com.fasterxml.jackson.core</groupId>
+    		<artifactId>jackson-databind</artifactId>
+		</dependency>
+		
+		<!-- DEPENDENCIAS PARA LOMBOK -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>	
+			<scope>provided</scope>
+		</dependency>
+		
+		
 	</dependencies>
 
 	<build>

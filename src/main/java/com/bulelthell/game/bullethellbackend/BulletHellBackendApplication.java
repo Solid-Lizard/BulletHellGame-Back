@@ -9,5 +9,6 @@ public class BulletHellBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BulletHellBackendApplication.class, args);
 	}
+		
 
 }
