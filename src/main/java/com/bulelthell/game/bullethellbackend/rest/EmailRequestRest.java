@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class EmailRequestRest {
-	@JsonProperty("receiver")
-	private String receiver;
-	
 	@JsonProperty("subject")
 	private String subject;
 	
