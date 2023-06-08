@@ -21,10 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bulelthell.game.bullethellbackend.config.jwt.JwtUtils;
+import com.bulelthell.game.bullethellbackend.controllers.AuthControllerI;
 import com.bulelthell.game.bullethellbackend.payload.request.LoginRequest;
+import com.bulelthell.game.bullethellbackend.payload.request.SignupRequest;
 import com.bulelthell.game.bullethellbackend.payload.response.JwtResponse;
 import com.bulelthell.game.bullethellbackend.payload.response.MessageResponse;
-import com.bulelthell.game.bullethellbackend.payload.response.SignupRequest;
 import com.bulelthell.game.bullethellbackend.persistence.ERole;
 import com.bulelthell.game.bullethellbackend.persistence.Role;
 import com.bulelthell.game.bullethellbackend.persistence.User;
@@ -35,23 +36,23 @@ import com.bulelthell.game.bullethellbackend.service.impl.UserDetailsImpl;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthControllerImpl implements AuthControllerI {
 	/** Servicio de gestión de aplicaciones */
 	@Autowired
 	AuthenticationManager authenticationManager;
-	
+
 	/** Repositorio de usuarios */
 	@Autowired
 	UserRepository userRepository;
-	
+
 	/** Repositorio de roles */
 	@Autowired
 	RoleRepository roleRepository;
-	
+
 	/** Codificador de passwords */
 	@Autowired
 	PasswordEncoder encoder;
-	
+
 	/** Utilidades Jwt */
 	@Autowired
 	JwtUtils jwtUtils;
@@ -70,11 +71,16 @@ public class AuthController {
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+
 		String jwt = jwtUtils.generateJwtToken(authentication);
+
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
 		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
 				.collect(Collectors.toList());
+
 		return ResponseEntity.ok(
 				new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
 	}
@@ -96,11 +102,15 @@ public class AuthController {
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email ya existente!"));
 		}
-// Create new user's account
+
+		// Create new user's account
 		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()));
+			
+		
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
+		
 		if (strRoles == null) {
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
 					.orElseThrow(() -> new RuntimeException("Error: Role no encontrado."));

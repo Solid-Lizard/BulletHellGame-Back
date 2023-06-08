@@ -21,11 +21,11 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtUtils {
 	/** LOGGER */
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-	
+
 	/** JwtSecret */
 	@Value("${com.example.jwtSecret}")
 	private String jwtSecret;
-	
+
 	/** jwtExpirationms */
 	@Value("${com.example.jwtExpirationMs}")
 	private int jwtExpirationMs;

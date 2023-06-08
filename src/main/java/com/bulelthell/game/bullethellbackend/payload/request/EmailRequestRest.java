@@ -1,4 +1,4 @@
-package com.bulelthell.game.bullethellbackend.rest;
+package com.bulelthell.game.bullethellbackend.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

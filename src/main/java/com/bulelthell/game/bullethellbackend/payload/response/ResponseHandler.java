@@ -1,4 +1,4 @@
-package com.bulelthell.game.bullethellbackend.response;
+package com.bulelthell.game.bullethellbackend.payload.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

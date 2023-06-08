@@ -19,21 +19,22 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.bulelthell.game.bullethellbackend.service.impl.UserDetailsServiceImpl;
 
-public class AuthTokenFilter  extends OncePerRequestFilter {
+public class AuthTokenFilter extends OncePerRequestFilter {
 
 	/** Servicio de JwtUtils */
 	@Autowired
 	private JwtUtils jwtUtils;
-	
+
 	/** Servicio de detalles de usuario */
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
-	
+
 	/** Logger de la aplicación */
 	private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 		try {
 			String jwt = parseJwt(request);
 			if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
@@ -44,7 +45,7 @@ public class AuthTokenFilter  extends OncePerRequestFilter {
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
-			
+
 		} catch (Exception e) {
 			logger.error("Cannot set user authentication: {}", e);
 		}

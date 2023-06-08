@@ -23,7 +23,7 @@ public class TestController {
 	/** Repositorio de gestión de usuarios */
 	@Autowired
 	UserRepository repo;
-	
+
 	/**
 	 * 
 	 * Crea un usuario pasado por parámetros
@@ -36,7 +36,7 @@ public class TestController {
 	public User crearUsuario(@RequestBody User u) {
 		return repo.save(u);
 	}
-	
+
 	/**
 	 * 
 	 * Devuelve todos los usuarios
@@ -48,7 +48,7 @@ public class TestController {
 	public List<User> buscarTodos() {
 		return repo.findAll();
 	}
-	
+
 	/**
 	 * 
 	 * Devuelve un usuario en base a su id
@@ -61,7 +61,7 @@ public class TestController {
 	public User buscarPorId(@PathVariable Long id) {
 		return repo.findById(id).orElse(null);
 	}
-	
+
 	/**
 	 * 
 	 * Elimina un usario en base a su id
@@ -73,7 +73,7 @@ public class TestController {
 	public void eliminarPorId(@PathVariable Long id) {
 		repo.deleteById(id);
 	}
-	
+
 	/**
 	 * 
 	 * Muestra el contenido público
@@ -88,7 +88,8 @@ public class TestController {
 
 	/**
 	 * 
-	 * Muestra el contenido de los usuarios registrados como "user", "model", o "admin"
+	 * Muestra el contenido de los usuarios registrados como "user", "model", o
+	 * "admin"
 	 * 
 	 * @return String
 	 * 
@@ -125,4 +126,3 @@ public class TestController {
 		return "Admin Board.";
 	}
 }
-
