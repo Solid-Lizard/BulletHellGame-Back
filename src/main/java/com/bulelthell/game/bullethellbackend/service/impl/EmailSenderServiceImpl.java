@@ -34,8 +34,8 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom("bullethellgameserver@gmail.com");
 		message.setTo(mail);
-		message.setText("Para acceder a la petición de cambio de contraseña, acceda a este enlace: http://localhost:4200/reset-password?token=" + token );
-		message.setSubject("Recuperación contraseña");
+		message.setText("Para acceder a la peticion de cambio de contrasenia, acceda a este enlace: https://bullethellgame-back-production.up.railway.app/reset-password?token=" + token );
+		message.setSubject("Recuperacion contrasenia");
 
 		mailSender.send(message);
 		
