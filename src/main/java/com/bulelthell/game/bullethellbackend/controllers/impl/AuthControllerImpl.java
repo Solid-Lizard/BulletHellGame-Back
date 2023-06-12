@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bulelthell.game.bullethellbackend.config.jwt.JwtUtils;
@@ -85,6 +86,33 @@ public class AuthControllerImpl implements AuthControllerI {
 				new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
 	}
 
+	@PostMapping("/updateUser")
+	public ResponseEntity<?>  updateUser(@RequestParam Long id, @RequestParam String email, @RequestParam String name) {
+		User u = userRepository.findById(id).orElse(null);
+		
+		if (userRepository.existsByUsername(name)) {
+			if (!u.getUsername().equals(name)) {
+				return ResponseEntity.badRequest().body(new MessageResponse("Error: Username ya existente!"));
+			}
+
+		}
+		
+		if (userRepository.existsByEmail(email)) {
+			if (!u.getEmail().equals(email)) {
+				return ResponseEntity.badRequest().body(new MessageResponse("Error: Email ya existente!"));
+			}
+							
+		}
+		
+		u.setEmail(email);
+		u.setUsername(name);
+		
+		userRepository.save(u);
+		
+		return ResponseEntity.ok(new MessageResponse("Usuario actualizado correctamente!"));
+		
+	}
+
 	/**
 	 * 
 	 * Gestiona la creación de usuarios en la BDD.
@@ -106,11 +134,10 @@ public class AuthControllerImpl implements AuthControllerI {
 		// Create new user's account
 		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()));
-			
-		
+
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
-		
+
 		if (strRoles == null) {
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
 					.orElseThrow(() -> new RuntimeException("Error: Role no encontrado."));
